@@ -41,7 +41,10 @@ class SlicesOrientation(NamedTuple):
 
 
 def _get_image_position_patient(instance: Instance):
-    return np.array(list(map(float, get_tag(instance, 'ImagePositionPatient'))))
+    image_position_patient = get_tag(instance, 'ImagePositionPatient')
+    if not isinstance(image_position_patient, Sequence) and len(image_position_patient) == 3:
+        raise TagTypeError('ImagePositionPatient tag must be a sequence of 3 coordinates')
+    return np.array(list(map(float, image_position_patient)))
 
 
 @csv_series
@@ -51,7 +54,10 @@ def get_image_position_patient(series: Series) -> np.ndarray:
 
 
 def _get_image_orientation_patient(instance: Instance):
-    return np.array(list(map(float, get_tag(instance, 'ImageOrientationPatient'))))
+    image_orientation_patient = get_tag(instance, 'ImageOrientationPatient')
+    if not isinstance(image_orientation_patient, Sequence) and len(image_orientation_patient) == 6:
+        raise TagTypeError('ImageOrientationPatient tag must be a sequence of 6 coordinates`')
+    return np.array(list(map(float, image_orientation_patient)))
 
 
 def _get_orientation_matrix(instance: Instance):
