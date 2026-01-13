@@ -29,10 +29,10 @@ def extract_dims(x):
     return x[0]
 
 
-def bufferize_instance(instance: Dataset, force=True, write_like_original=True):
+def bufferize_instance(instance: Dataset, force=True, enforce_file_format=False):
     """Makes a copy of the ``instance``. Faster than deepcopy."""
     with BytesIO() as buffer:
-        dcmwrite(buffer, instance, write_like_original=write_like_original)
+        dcmwrite(buffer, instance, enforce_file_format=enforce_file_format)
         buffer.seek(0)
         return dcmread(buffer, force=force)
 
@@ -44,7 +44,7 @@ def set_file_meta(instance: Dataset):
     meta.MediaStorageSOPClassUID = instance.SOPClassUID
     meta.MediaStorageSOPInstanceUID = instance.SOPInstanceUID
     meta.TransferSyntaxUID = ImplicitVRLittleEndian
-    instance.is_implicit_VR = instance.is_little_endian = True
+    instance.is_implicit_VR = True
     # meta.ImplementationClassUID = ??
     # meta.ImplementationVersionName = ??
     instance.file_meta = meta
