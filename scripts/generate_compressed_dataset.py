@@ -109,7 +109,7 @@ def _compress_and_save(
             ) from e
     # else: keep uncompressed (Explicit VR LE already set)
     filepath.parent.mkdir(parents=True, exist_ok=True)
-    ds.save_as(str(filepath), write_like_original=False)
+    ds.save_as(str(filepath), enforce_file_format=True)
 
 
 def generate_dataset(

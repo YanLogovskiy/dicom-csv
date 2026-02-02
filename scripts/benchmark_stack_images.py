@@ -84,7 +84,7 @@ def _make_synthetic_dicom(
     ds.ImageOrientationPatient = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0]
     ds.PixelData = pixel_array.tobytes()
 
-    ds.save_as(filepath, write_like_original=False)
+    ds.save_as(filepath, enforce_file_format=True)
 
 
 def generate_synthetic_series(
